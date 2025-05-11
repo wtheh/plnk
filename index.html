@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="style.css">
+  <title>bio - никита</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body {
+      height: 100%;
+      scroll-behavior: smooth;
+      overflow: hidden;
+      font-family: sans-serif;
+    }
+
+    .section {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 32px;
+      transition: transform 0.8s ease;
+    }
+
+    #welcome { background: #171717; color: white; }
+    #about { background: #141414; color: white; }
+    #contacts { background: #121212; color: white; }
+
+    header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      padding: 15px 30px;
+      transition: top 0.5s ease;
+    }
+
+    header.hidden {
+      top: -100px; /* скрываем вверх */
+    }
+
+    nav a {
+      color: #ccc;
+      margin-left: 20px;
+      text-decoration: none;
+    }
+
+    nav a:hover {
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+<header id="mainHeader">
+  <div class="logo"><img id="avatar" src="https://i.pinimg.com/736x/5f/4c/f8/5f4cf8d3cb27c888d109ca1d7cefffc8.jpg" alt="ava"></div>
+
+  <nav>
+    <button id="musicToggle" title="Музыка 🔊">🔊</button>
+    <a href="#welcome">Привет</a>
+    <a href="#about">Обо мне</a>
+    <a href="#contacts">Связь со мной</a>
+  </nav>
+</header>
+
+<div id="welcome" class="section">
+    <div class="hello"><h1>Приветик🎈</h1> <br> <p>Вы попали на мой сайт.</p></div>
+</div>
+<div id="about" class="section">
+    <h5>Всем хай.🕳️ Меня зовут Никита, мне 17.💕 Я Front - end разработчик.💦 <br> 💮 Делаю сайты на заказ, цена договорная.💮 <br> Пишите в дс или тг🪽</h5>
+</div>
+<div id="contacts" class="section">
+    <section id="contacts" class="section">
+        <div class="card-container">
+          <div class="card">
+            <img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" alt="Telegram">
+            <h2>Telegram</h2>
+            <a href="https://t.me/plnk_dev" target="_blank">@plnk_dev</a>
+          </div>
+          <div class="card">
+            <img src="https://cdn-icons-png.flaticon.com/512/2111/2111370.png" alt="Discord">
+            <h2>Discord</h2>
+            <a href="https://discord.com/users/1367200860572225646" target="_blank">nikita.narkoman</a>
+          </div>
+        </div>
+      </section>      
+</div>
+
+<audio id="bgmusic" loop>
+    <source src="./music/music.mp3" type="audio/mpeg">
+  </audio>
+  
+
+<script>
+  let currentSection = 0;
+  const sections = document.querySelectorAll('.section');
+  const header = document.getElementById('mainHeader');
+
+  function scrollToSection(index) {
+    if (index >= 0 && index < sections.length) {
+      sections[index].scrollIntoView({ behavior: 'smooth' });
+      currentSection = index;
+      updateHeaderVisibility();
+    }
+  }
+
+  function updateHeaderVisibility() {
+    if (currentSection === 0) {
+      header.classList.remove('hidden');
+    } else {
+      header.classList.add('hidden');
+    }
+  }
+
+  window.addEventListener('wheel', (e) => {
+    if (e.deltaY > 0) {
+      scrollToSection(currentSection + 1);
+    } else {
+      scrollToSection(currentSection - 1);
+    }
+  });
+
+  document.querySelectorAll('nav a').forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      const target = document.querySelector(link.getAttribute('href'));
+      scrollToSection([...sections].indexOf(target));
+    });
+  });
+
+  updateHeaderVisibility();
+</script>
+<script>
+    const music = document.getElementById('bgmusic');
+    const toggleBtn = document.getElementById('musicToggle');
+    let isPlaying = false;
+  
+    toggleBtn.addEventListener('click', () => {
+      if (isPlaying) {
+        music.pause();
+        toggleBtn.textContent = '🔇';
+      } else {
+        music.play();
+        toggleBtn.textContent = '🔊';
+      }
+      isPlaying = !isPlaying;
+    });
+  </script>
+  
+  <script>
+    document.addEventListener('mousemove', (e) => {
+      const star = document.createElement('div');
+      star.className = 'star';
+      star.textContent = '★';
+      star.style.left = `${e.clientX}px`;
+      star.style.top = `${e.clientY}px`;
+      document.body.appendChild(star);
+  
+      setTimeout(() => {
+        star.remove();
+      }, 800);
+    });
+  </script>
+  <script>
+    document.addEventListener('contextmenu', e => e.preventDefault());
+  
+    document.addEventListener('keydown', e => {
+      if ((e.ctrlKey && ['c', 's', 'u', 'a'].includes(e.key.toLowerCase())) || e.key === 'F12') {
+        e.preventDefault();
+      }
+    });
+  
+    document.addEventListener('selectstart', e => e.preventDefault());
+  </script>
+  
+
+</body>
+</html>
